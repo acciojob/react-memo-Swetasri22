@@ -1,32 +1,39 @@
 import React, { useState } from "react";
-import UseMemo from "./UseMemo";
-import ReactMemo from "./ReactMemo";
 
-const App = () => {
-  const [tasks, setTasks] = useState([]);
+const ReactMemo = () => {
+  const [input, setInput] = useState("");
 
-  const onAdd = () => {
-    setTasks((prev) => [...prev, "New Todo"]);
+  const [list, setList] = useState([]);
+
+  const onInput = (e) => {
+    const { value } = e.target;
+    setInput(value);
   };
+  const onAddSkill = () => {
+    if (input.trim().length > 5) {
+      setList((prev) => [...prev, input.trim()]);
+      setInput("");
+    }
+  };
+
   return (
-    <div id="main">
-      <h1>React.useMemo</h1>
-      <h2>My todos</h2>
+    <div>
+      <h1>React.memo</h1>
+      <div>
+        <input
+          value={input}
+          onChange={onInput}
+          placeholder="Enter a custom task"
+        />
+        <button onClick={onAddSkill}>Add Skill</button>
+      </div>
       <ul>
-        {tasks.map((i, index) => (
+        {list.map((i, index) => (
           <li key={index}>{i}</li>
         ))}
       </ul>
-
-      <button onClick={onAdd}>Add Todo</button>
-
-      <hr />
-      <UseMemo />
-      <hr />
-      <hr />
-      <ReactMemo />
     </div>
   );
 };
 
-export default App;
+export default React.memo(ReactMemo);
